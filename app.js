@@ -1,17 +1,17 @@
 const express = require("express");
 const volleyball = require("volleyball");
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const nunjucks = require("nunjucks");
 const routes = require("./routes");
 const { db } = require("./models");
-// const { Sequalize } = require("sequelize");
 
 const app = express();
 
-app.use("/", routes);
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(volleyball);
 app.use(bodyParser.json());
 app.use(express.static("public"));
+app.use("/", routes);
 
 // apuntá nunjucks al directorio conteniendo templates y apagando el cacheo,
 // configure devuelve una instancia Enviornment que vamos a querer usar para

@@ -7,12 +7,21 @@ Page.init(
   {
     title: {
       type: S.STRING,
+      allowNull: false,
+    },
+    route: {
+      type: S.VIRTUAL,
+      get() {
+        return "/wiki/" + this.getDataValue("urltitle");
+      },
     },
     urlTitle: {
       type: S.STRING,
+      allowNull: false,
     },
     content: {
       type: S.TEXT,
+      allowNull: false,
     },
     status: {
       type: S.ENUM("open", "closed"),
@@ -27,9 +36,11 @@ User.init(
   {
     name: {
       type: S.STRING,
+      allowNull: false,
     },
     email: {
       type: S.STRING,
+      allowNull: false,
     },
   },
   { sequelize: db, modelName: "user" }
