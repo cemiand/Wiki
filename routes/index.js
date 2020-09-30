@@ -6,8 +6,8 @@ const user = require("./user");
 router.use("/user", user);
 router.use("/wiki", wiki);
 
-router.get("/", (req, res) => {
-  res.send("Test");
-});
+// router.get("/", (req, res) => {
+//   res.send("Test");
+// });
 
 module.exports = router;

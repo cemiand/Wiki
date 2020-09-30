@@ -1,5 +1,5 @@
 const S = require("sequelize");
-const db = new S("postgres://localhost:5432/wiki");
+const db = new S("postgres://localhost:5432/wiki", { logging: false });
 
 //-- Page Model
 class Page extends S.Model {}
@@ -17,7 +17,7 @@ Page.init(
     },
     urlTitle: {
       type: S.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     content: {
       type: S.TEXT,
@@ -45,6 +45,24 @@ User.init(
   },
   { sequelize: db, modelName: "user" }
 );
+
+Page.addHook("beforeValidate", generateUrlTitle);
+
+function generateUrlTitle(page) {
+  // console.log(title);
+  if (page.title) {
+    // Remueve todos los caracteres no-alfanuméricos
+    // y hace a los espacios guiones bajos.
+    return (page.urlTitle = page.title.replace(/\s+/g, "_").replace(/\W/g, ""));
+  } else {
+    // Generá de forma aleatoria un string de 5 caracteres
+    return Math.random().toString(36).substring(2, 7);
+  }
+}
+
+Page.prototype.createdPage = function () {
+  return this.Page;
+};
 
 module.exports = {
   Page: Page,
